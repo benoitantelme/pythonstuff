@@ -95,7 +95,7 @@ while True:
 
         place_marker(board, 'X', position)
         display_board(board)
-        if win_check(test_board, 'X'):
+        if win_check(board, 'X'):
             print('Player 1 won')
             break
         # Player2's turn.
@@ -108,7 +108,7 @@ while True:
 
         place_marker(board, 'O', position)
         display_board(board)
-        if win_check(test_board, 'O'):
+        if win_check(board, 'O'):
             print('Player 2 won')
             break
             # pass
