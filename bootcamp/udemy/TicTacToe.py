@@ -2,43 +2,48 @@ from IPython.display import clear_output
 import random
 
 
-def printLine(board):
-    print('|', end = '')
-    for input in board:
-        print(' ' + input + ' |', end = '')
+def print_line(gameboard):
+    print('|', end='')
+    for spot in gameboard:
+        print(' ' + spot + ' |', end='')
     print()
 
-def display_board(board):
+
+def display_board(gameboard):
     clear_output()
-    for x in range(1,8,3):
-        printLine(board[x:x+3])
+    for x in range(1, 8, 3):
+        print_line(gameboard[x:x + 3])
+
 
 def player_input():
     player1 = input("Please pick a marker 'X' or 'O'")
     return player1
 
-def place_marker(board, marker, position):
-    board[position] = marker
+
+def place_marker(gameboard, marker, pos):
+    gameboard[pos] = marker
 
 
-def same(board, mark):
-    return board.count(board[0]) == len(board)
+def same(gameboard, mark):
+    return gameboard.count(mark) == len(gameboard)
 
-def win_check(board, mark):
+
+def win_check(gameboard, mark):
     for x in range(1, 8, 3):
-        if same(board[x:x + 3], mark):
+        if same(gameboard[x:x + 3], mark):
             return True
 
     for x in range(1, 4):
-        if same(board[x:x + 6:3], mark):
+        if same(gameboard[x:x + 6:3], mark):
             return True
 
     for x in range(1, 4):
-        if (board[1] == mark and board[5] == mark and board[9] == mark) or (
-                board[3] == mark and board[5] == mark and board[7] == mark):
+        if (gameboard[1] == mark and gameboard[5] == mark and gameboard[9] == mark) or (
+                gameboard[3] == mark and gameboard[5] == mark and gameboard[7] == mark):
             return True
 
     return False
+
 
 def choose_first():
     if random.randint(10) > random.randint(10):
@@ -46,30 +51,33 @@ def choose_first():
     else:
         return False
 
-def space_check(board, position):
-    if board[position] != 'X' and board[position] != 'O':
+
+def space_check(gameboard, pos):
+    if gameboard[pos] != 'X' and gameboard[pos] != 'O':
         return True
     else:
         return False
 
 
-def full_board_check(board):
+def full_board_check(gameboard):
     for spot in range(1, 10):
-        if space_check(board, spot):
+        if space_check(gameboard, spot):
             return False
 
     return True
 
-def player_choice(board):
-    position = int(input('Please enter a number'))
-    if space_check(board, position):
-        return position
+
+def player_choice(gameboard):
+    pos = int(input('Please enter a number'))
+    if space_check(gameboard, pos):
+        return pos
     else:
         return -1
 
+
 def replay():
-    player1 = input("Again? yes or no")
-    if player1 == 'yes':
+    answer = input("Again? yes or no")
+    if answer == 'yes':
         return True
     else:
         return False
