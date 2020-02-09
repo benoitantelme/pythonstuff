@@ -1,6 +1,7 @@
 from functools import reduce
 from typing import List
 from collections import Counter
+import sys
 
 
 def twoSum(nums: List[int], target: int) -> List[int]:
@@ -120,3 +121,34 @@ def minCostToMoveChips(chips: List[int]) -> int:
 
 print(minCostToMoveChips([2, 2, 2, 3, 3]))
 
+
+def maxProfitSingle(prices: List[int]) -> int:
+    if not prices:
+        return 0
+
+    min = sys.maxsize
+    result = -sys.maxsize - 1
+    for price in prices:
+        if price < min:
+            min = price
+        if result < price - min:
+            result = price - min
+
+    return result
+
+
+print(maxProfitSingle([7, 1, 5, 3, 6, 4]))
+print(maxProfitSingle([7, 6, 4, 3, 1]))
+
+
+def maxProfit(prices: List[int]) -> int:
+    res = 0
+    for tpl in [prices[i:i+2] for i in range(0, len(prices)-1)]:
+        if tpl[0] < tpl[1]:
+            res += tpl[1]-tpl[0]
+
+    return res
+
+
+print(maxProfit([7, 1, 5, 3, 6, 4]))
+print(maxProfit([1, 2, 3, 4, 5]))
