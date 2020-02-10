@@ -136,6 +136,7 @@ def leaves(root: TreeNode):
 
     return res
 
+
 def leafSimilar(root1: TreeNode, root2: TreeNode) -> bool:
     return leaves(root1) == leaves(root2)
 
@@ -148,3 +149,25 @@ root2.left = TreeNode(3)
 root2.right = TreeNode(2)
 print(leafSimilar(root1, root2))
 
+
+def invertTree(root: TreeNode) -> TreeNode:
+    if root:
+        tmp = root.left
+        root.left = root.right
+        root.right = tmp
+    if root and root.left:
+        invertTree(root.left)
+    if root and root.right:
+        invertTree(root.right)
+    return root
+
+
+root = TreeNode(4)
+root.left = TreeNode(2)
+root.right = TreeNode(7)
+root.left.left = TreeNode(1)
+root.left.right = TreeNode(3)
+root.right.left = TreeNode(6)
+root.right.right = TreeNode(9)
+print("Inverted tree: ")
+print_bfs(invertTree(root))
