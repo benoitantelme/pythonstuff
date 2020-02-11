@@ -30,3 +30,4 @@ def peakIndexInMountainArray(A: List[int]) -> int:
 
 print(peakIndexInMountainArray([0, 2, 1, 0]))
 
+
