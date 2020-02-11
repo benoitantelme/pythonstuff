@@ -1,6 +1,7 @@
 from collections import defaultdict
 from typing import List
 import heapq
+from collections import Counter
 
 
 def isSubsequence(s: str, t: str) -> bool:
@@ -67,3 +68,42 @@ print(kWeakestRows(
      [1, 0, 0, 0],
      [1, 0, 0, 0]], 2))
 
+
+def search(nums: List[int], target: int) -> int:
+    mid = len(nums) // 2
+    l = 0
+    r = len(nums)
+    while l <= r and r >= 0 and l < len(nums):
+        mid = l + (r - l) // 2
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] > target:
+            r = mid - 1
+        else:
+            l = mid + 1
+    return -1
+
+
+print(search([-1, 0, 3, 5, 9, 12], 9))
+print(search([-1, 0, 3, 5, 9, 12], 2))
+print(search([-1, 0, 3, 5, 9, 12], 13))
+
+
+def intersect(nums1: List[int], nums2: List[int]) -> List[int]:
+    res = []
+    a = Counter(nums1)
+    b = Counter(nums2)
+    for k, v in a.items():
+        if k in b:
+            for i in range(0, min(v, b[k])):
+                res.append(k)
+    return res
+
+
+print(intersect([1, 2, 2, 1], [2, 2]))
+print(intersect([1, 2, 2, 1], [2]))
+print(intersect(
+    [43, 85, 49, 2, 83, 2, 39, 99, 15, 70, 39, 27, 71, 3, 88, 5, 19, 5, 68, 34, 7, 41, 84, 2, 13, 85, 12, 54, 7, 9, 13,
+     19, 92],
+    [10, 8, 53, 63, 58, 83, 26, 10, 58, 3, 61, 56, 55, 38, 81, 29, 69, 55, 86, 23, 91, 44, 9, 98, 41, 48, 41, 16, 42,
+     72, 6, 4, 2, 81, 42, 84, 4, 13]))
