@@ -1,6 +1,5 @@
 from collections import defaultdict
 from typing import List
-import sys
 
 
 def majorityElement(nums: List[int]) -> int:
