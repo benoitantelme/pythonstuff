@@ -8,6 +8,9 @@ class TreeNode:
         self.left = None
         self.right = None
 
+    def __str__(self):
+        return 'Node: ' + self.val
+
 
 def bfs_print(root: TreeNode):
     queue = [root]
@@ -171,3 +174,50 @@ def constructMaximumBinaryTree(nums: List[int]) -> TreeNode:
 
 print('constructed tree:')
 print(bfs_print(constructMaximumBinaryTree([3, 2, 1, 6, 0, 5])))
+
+
+def recBstFromPreorder(preorder: List[int]):
+    if len(preorder) == 0:
+        return None
+
+    current = TreeNode(preorder.pop(0))
+
+    index = -1
+    for i in range(0, len(preorder)):
+        if preorder[i] > current.val:
+            index = i
+            break
+
+    if index != -1:
+        current.left = recBstFromPreorder(preorder[:index])
+        preorder = preorder[index:]
+    elif len(preorder) >= 1 and preorder[0] < current.val:
+        current.left = recBstFromPreorder(preorder)
+        preorder = []
+
+    index = -1
+    for i in range(0, len(preorder)):
+        if preorder[i] < current.val:
+            index = i
+            break
+    if index != -1:
+        current.right = recBstFromPreorder(preorder[index+1:])
+        preorder = preorder[index + 1:]
+    elif len(preorder) > 0 and preorder[0] > current.val:
+        current.right = recBstFromPreorder(preorder)
+        preorder = []
+
+    return current
+
+
+def bstFromPreorder(preorder: List[int]) -> TreeNode:
+    return recBstFromPreorder(preorder)
+
+print('reconstructed from pre order')
+root = bstFromPreorder([8, 5, 1, 7, 10, 12])
+bfs_print(root)
+
+print('reconstructed from pre order')
+root = bstFromPreorder([3, 1, 2])
+bfs_print(root)
+
