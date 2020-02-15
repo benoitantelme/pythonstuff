@@ -1,4 +1,7 @@
 # Definition for a binary tree node.
+from typing import List
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -77,6 +80,7 @@ root.right.right.right = TreeNode(5)
 print('Sum grand parents: ')
 print(sumEvenGrandparent(root))
 
+
 def in_order_dfs_rewrite(current: TreeNode, total: int) -> int:
     if current.left:
         total = in_order_dfs_rewrite(current.left, total)
@@ -86,6 +90,7 @@ def in_order_dfs_rewrite(current: TreeNode, total: int) -> int:
     if current.right:
         total = in_order_dfs_rewrite(current.right, total)
     return total
+
 
 def bstToGst(root: TreeNode) -> TreeNode:
     # get total with bfs
@@ -114,3 +119,55 @@ root.left.right.right = TreeNode(3)
 root.right.right.right = TreeNode(8)
 print('Values modified:')
 bfs_print(bstToGst(root))
+
+
+def recInsertIntoBST(current: TreeNode, val: int):
+    if current.val > val:
+        if not current.left:
+            current.left = TreeNode(val)
+        else:
+            recInsertIntoBST(current.left, val)
+    else:
+        if not current.right:
+            current.right = TreeNode(val)
+        else:
+            recInsertIntoBST(current.right, val)
+
+
+def insertIntoBST(root: TreeNode, val: int) -> TreeNode:
+    if not root:
+        root = TreeNode(val)
+    else:
+        recInsertIntoBST(root, val)
+    return root
+
+
+root = TreeNode(4)
+root.left = TreeNode(2)
+root.right = TreeNode(7)
+root.left.left = TreeNode(1)
+root.left.right = TreeNode(3)
+print('Tree is:')
+bfs_print(root)
+print('after inserting:')
+bfs_print(insertIntoBST(root, 5))
+
+
+def recConstructMaximumBinaryTree(nums: List[int]) -> TreeNode:
+    if len(nums) == 0:
+        return None
+
+    maximum = max(nums)
+    top_node = TreeNode(maximum)
+    middle = nums.index(maximum)
+    top_node.left = recConstructMaximumBinaryTree(nums[:middle])
+    top_node.right = recConstructMaximumBinaryTree(nums[middle + 1:])
+    return top_node
+
+
+def constructMaximumBinaryTree(nums: List[int]) -> TreeNode:
+    return recConstructMaximumBinaryTree(nums)
+
+
+print('constructed tree:')
+print(bfs_print(constructMaximumBinaryTree([3, 2, 1, 6, 0, 5])))
