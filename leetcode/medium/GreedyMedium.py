@@ -17,3 +17,23 @@ def groupThePeople(groupSizes: List[int]) -> List[List[int]]:
 
 print(groupThePeople([3, 3, 3, 3, 3, 1, 3]))
 print(groupThePeople([2, 1, 3, 3, 3, 2]))
+
+
+def minAddToMakeValid(S: str) -> int:
+    stack = []
+    for l in S:
+        if len(stack) > 0:
+            if l == ')' and stack[-1] == '(':
+                stack.pop()
+            else:
+                stack.append(l)
+        else:
+            stack.append(l)
+
+    return len(stack)
+
+
+print(minAddToMakeValid("())"))
+print(minAddToMakeValid("((("))
+print(minAddToMakeValid("()))(("))
+
