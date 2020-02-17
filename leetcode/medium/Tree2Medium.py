@@ -11,7 +11,18 @@ class TreeNode:
         return 'Node: ' + self.val
 
 
-def getOrderedList(current: TreeNode, ordered : List[int]):
+def bfs_print(root: TreeNode):
+    queue = [root]
+    while len(queue) > 0:
+        current = queue.pop(0)
+        print(current.val)
+        if current.left:
+            queue.append(current.left)
+        if current.right:
+            queue.append(current.right)
+
+
+def getOrderedList(current: TreeNode, ordered: List[int]):
     """
     DFS in order to get the ordered list
     """
@@ -61,3 +72,40 @@ root2 = TreeNode(1)
 root2.left = TreeNode(0)
 root2.right = TreeNode(3)
 print(getAllElements(root1, root2))
+
+
+def pruneTree(root: TreeNode) -> TreeNode:
+    if not root:
+        return None
+
+    if root.left:
+        root.left = pruneTree(root.left)
+    if root.right:
+        root.right = pruneTree(root.right)
+
+    if root.val == 0 and not root.left and not root.right:
+        root = None
+
+    return root
+
+
+root = TreeNode(1)
+root.right = TreeNode(0)
+root.right.left = TreeNode(0)
+root.right.right = TreeNode(1)
+print('Tree :')
+bfs_print(root)
+print('Pruned as:')
+bfs_print(pruneTree(root))
+
+root = TreeNode(1)
+root.left = TreeNode(0)
+root.left.left = TreeNode(0)
+root.left.left.right = TreeNode(1)
+root.right = TreeNode(0)
+root.right.left = TreeNode(0)
+root.right.right = TreeNode(1)
+print('Tree :')
+bfs_print(root)
+print('Pruned as:')
+bfs_print(pruneTree(root))
