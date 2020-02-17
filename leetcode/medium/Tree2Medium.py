@@ -109,3 +109,49 @@ print('Tree :')
 bfs_print(root)
 print('Pruned as:')
 bfs_print(pruneTree(root))
+
+
+def removeLeafNodes(root: TreeNode, target: int) -> TreeNode:
+    if not root:
+        return None
+
+    if root.left:
+        root.left = removeLeafNodes(root.left, target)
+    if root.right:
+        root.right = removeLeafNodes(root.right, target)
+
+    if root.val == target and not root.left and not root.right:
+        root = None
+    return root
+
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.left.left = TreeNode(2)
+root.right = TreeNode(3)
+root.right.left = TreeNode(2)
+root.right.right = TreeNode(4)
+print('before leaf removal')
+bfs_print(root)
+print('after removal:')
+bfs_print(removeLeafNodes(root, 2))
+
+root = TreeNode(1)
+root.left = TreeNode(3)
+root.left.left = TreeNode(3)
+root.left.left = TreeNode(2)
+root.right = TreeNode(3)
+print('before leaf removal')
+bfs_print(root)
+print('after removal:')
+bfs_print(removeLeafNodes(root, 3))
+
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.left.left = TreeNode(2)
+print('before leaf removal')
+bfs_print(root)
+print('after removal:')
+bfs_print(removeLeafNodes(root, 2))
+
