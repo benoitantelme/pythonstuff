@@ -59,3 +59,34 @@ print(deckRevealedIncreasing([1]))
 print(deckRevealedIncreasing([1, 3]))
 print(deckRevealedIncreasing([1, 3, 2, 4]))
 print(deckRevealedIncreasing([1, 2, 3, 4, 5]))
+
+
+def matrixScore(A: List[List[int]]) -> int:
+    leny = len(A)
+    lenx = len(A[0])
+
+    # flip the row if highest value is 0
+    for y in range(leny):
+        if A[y][0] == 0:
+            for x in range(lenx):
+                A[y][x] ^= 1
+
+    # flip the column if more 0's than 1's, starting by the second one
+    for x in range(1, lenx):
+        if sum(row[x] for row in A) < leny / 2:
+            for row in A:
+                row[x] ^= 1
+
+    res = 0
+
+    # arithmetic shift conversion
+    for value in A:
+        tmp = 0
+        for bit in value:
+            tmp = (tmp << 1) | bit
+        res += tmp
+
+    return res
+
+
+print(matrixScore([[0, 0, 1, 1], [1, 0, 1, 0], [1, 1, 0, 0]]))
