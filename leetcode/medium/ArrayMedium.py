@@ -90,3 +90,76 @@ def matrixScore(A: List[List[int]]) -> int:
 
 
 print(matrixScore([[0, 0, 1, 1], [1, 0, 1, 0], [1, 1, 0, 0]]))
+
+
+def convertToList(L: List[List[int]]) -> List[bool]:
+    result = []
+    if not L:
+        return result
+
+    start = 0
+    end = L[len(L) - 1][1]
+
+    while start <= end and L:
+        l = L.pop(0)
+        if l[0] != start:
+            result.extend([False for i in range(l[0] - start)])
+            start = l[0]
+        result.extend([True for i in range(l[1] - l[0])])
+        start = l[1]
+
+    return result
+
+
+def intersection(a: List[int], b: List[int], n: int):
+    return n > 0 and ((a[n] and b[n - 1]) or (a[n - 1] and b[n]))
+
+
+def intervalIntersection(A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+    a = convertToList(A)
+    b = convertToList(B)
+
+    result = []
+    if len(a) == 0 or len(b) == 0:
+        return result
+
+    n = 0
+    s = 0
+    end = min(len(a), len(b))
+    while n < end:
+        if a[n] and b[n]:
+            s = n
+            n += 1
+            while n < end:
+                if a[n] and b[n]:
+                    n += 1
+                else:
+                    result.append([s, n])
+                    n += 1
+                    s = 0
+                    break
+        elif intersection(a, b, n):
+            result.append([n, n])
+            n += 1
+        else:
+            n += 1
+
+    # close opened interval
+    if s != 0:
+        result.append([s, n])
+    else:
+        # check last intersection
+        if len(a) > len(b):
+            if a[n] and b[n - 1]:
+                result.append([n, n])
+        else:
+            if a[n - 1] and b[n]:
+                result.append([n, n])
+
+    return result
+
+
+print(intervalIntersection([[0, 2], [5, 10], [13, 23], [24, 25]], [[1, 5], [8, 12], [15, 24], [25, 26]]))
+print(intervalIntersection([], []))
+print(intervalIntersection([[1, 7]], [[3, 10]]))
+print(intervalIntersection([[5, 8], [15, 18]], [[0, 3], [7, 8], [9, 12]]))
